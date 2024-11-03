@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Indian Oil</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <script>
+        console.log('inside html');
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <a href="#">Forgot Password?</a>
+    </div>
+</body>
+</html>
+<!--<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  background-color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 25%;
+  height: 100vh;
+  background-color: #fff;
+  float: left;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.content {
+  width: 75%;
+  height: 100vh;
+  background-color: #fff;
+  float: right;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <a href="#">New Intern</a>
+  <a href="#">Existing Intern</a>
+  <a href="#">Database</a>
+</div>
+
+<div class="content">
+  <h1>Welcome to</h1>
+  <p>Admin Panel</p>
+</div>
+
+</body>
+</html>-->

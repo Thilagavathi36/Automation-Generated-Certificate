@@ -1,0 +1,249 @@
+{% load static %}
+<form id="certificateForm" action="{% url 'generate_certificate' %}" method="POST">  
+  {% csrf_token %}
+  <style>
+      form {  
+          max-width: 500px;  
+          margin: 40px auto;  
+          padding: 20px;  
+          background-color: #f9f9f9;  
+          border: 1px solid #ccc;  
+          border-radius: 10px;  
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+      }  
+      label {  
+          display: block;  
+          margin-bottom: 10px;  
+      }  
+      input[type="text"], input[type="date"] {  
+          width: 100%;  
+          height: 40px;  
+          margin-bottom: 20px;  
+          padding: 10px;  
+          border: 1px solid #ccc;  
+      }  
+      input[type="button"], input[type="submit"] {  
+          width: 100%;  
+          height: 40px;  
+          background-color: #4CAF50;  
+          color: #fff;  
+          padding: 10px;  
+          border: none;  
+          border-radius: 5px;  
+          cursor: pointer;  
+      }  
+      input[type="button"]:hover, input[type="submit"]:hover {  
+          background-color: #3e8e41;  
+      }
+      input[type="submit"]:disabled {
+       background-color: #ccc;
+       cursor: not-allowed;
+}
+.back-link {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            text-decoration: none;
+            color: #007bff; /* Adjust color to your theme */
+            font-weight: bold;
+        }
+
+        /* Optional: Hover effect for the back link */
+        .back-link:hover {
+            color: #0056b3;
+        }
+
+  </style>
+<a href="{% url 'admin_panel' %}" class="back-link">Back</a>
+  <label for="date">Date (As on):</label>  
+  <input type="date" id="date" name="date" required>
+  <label for="nameTitle">Name:</label>  
+  <select id="nameTitle" name="nameTitle" required>
+      <option value="Mr.">Mr.</option>
+      <option value="Ms.">Ms.</option>
+      <option value="Mrs.">Mrs.</option>
+  </select>
+  <input type="text" id="name" name="name" placeholder="Name" required><br><br>  
+  <label for="degree">Degree:</label>  
+  <input type="text" id="degree" name="degree" required><br><br>  
+  <label for="collegeName">College Name:</label>  
+  <input type="text" id="collegeName" name="collegeName" required><br><br> 
+  <label for="duration">Duration:</label>  
+  <input type="date" id="fromDate" name="fromDate" required> to <input type="date" id="toDate" name="toDate" required><br><br>
+  <label for="Department">Department:</label>  
+  <input type="text" id="Department" name="Department" required><br><br> 
+  <label for="location">Location:</label>  
+  <input type="text" id="location" name="location" required><br><br>  
+
+  <label for="guide">Guide:</label>
+  <select id="guideTitle" name="guideTitle" required>
+      <option value="Mr.">Mr.</option>
+      <option value="Ms.">Ms.</option>
+      <option value="Mrs.">Mrs.</option>
+  </select>
+  <input type="text" id="guideName" name="guideName" placeholder="Name" required>   
+  <input type="text" id="guideDesignation" name="guideDesignation" placeholder="Designation" required>  
+  <input type="text" id="guideLocation" name="guideLocation" placeholder="Location" required><br><br>  
+
+  <label for="guideCO">Guide CO:</label>  
+  <select id="guideCOTitle" name="guideCOTitle" required>
+      <option value="Mr.">Mr.</option>
+      <option value="Ms.">Ms.</option>
+      <option value="Mrs.">Mrs.</option>
+  </select>
+  <input type="text" id="guideCOName" name="guideCOName" placeholder="Name" required>   
+  <input type="text" id="guideCODesignation" name="guideCODesignation" placeholder="Designation" required>  
+  <input type="text" id="guideCOLocation" name="guideCOLocation" placeholder="Location" required><br><br>  
+
+  <input type="button" id="saveButton" value="Save Form Data">
+  <br><br>
+  <input type="submit" id="generateButton" value="Generate Certificate" disabled>  
+ 
+</form>
+
+<script>
+    // Helper function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+  
+    const csrftoken = getCookie('csrftoken');
+    const form = document.getElementById('certificateForm');
+  
+    // Validate form fields
+    function validateFormFields() {
+        const name = document.getElementById('name').value.trim();
+        const degree = document.getElementById('degree').value.trim();
+        const collegeName = document.getElementById('collegeName').value.trim();
+        const fromDate = document.getElementById('fromDate').value.trim();
+        const toDate = document.getElementById('toDate').value.trim();
+        const department = document.getElementById('Department').value.trim();
+        const location = document.getElementById('location').value.trim();
+        const guideName = document.getElementById('guideName').value.trim();
+        const guideDesignation = document.getElementById('guideDesignation').value.trim();
+        const guideLocation = document.getElementById('guideLocation').value.trim();
+        const guideCOName = document.getElementById('guideCOName').value.trim();
+        const guideCODesignation = document.getElementById('guideCODesignation').value.trim();
+        const guideCOLocation = document.getElementById('guideCOLocation').value.trim();
+  
+        if (!name) { alert('Please enter a valid name'); return false; }
+        if (!degree) { alert('Please enter a valid degree'); return false; }
+        if (!collegeName) { alert('Please enter a valid college name'); return false; }
+        if (!fromDate) { alert('Please enter a valid from date'); return false; }
+        if (!toDate) { alert('Please enter a valid to date'); return false; }
+        if (!department) { alert('Please enter a valid department'); return false; }
+        if (!location) { alert('Please enter a valid location'); return false; }
+        if (!guideName) { alert('Please enter a valid guide name'); return false; }
+        if (!guideDesignation) { alert('Please enter a valid guide designation'); return false; }
+        if (!guideLocation) { alert('Please enter a valid guide location'); return false; }
+        if (!guideCOName) { alert('Please enter a valid guide CO name'); return false; }
+        if (!guideCODesignation) { alert('Please enter a valid guide CO designation'); return false; }
+        if (!guideCOLocation) { alert('Please enter a valid guide CO location'); return false; }
+        return true;
+    }
+  
+    // Save Form Data Functionality
+    document.getElementById('saveButton').addEventListener('click', async () => {
+        if (!validateFormFields()) return;
+  
+        const formData = {
+            date: document.getElementById('date').value,
+            nameTitle: document.getElementById('nameTitle').value,
+            name: document.getElementById('name').value,
+            degree: document.getElementById('degree').value,
+            collegeName: document.getElementById('collegeName').value,
+            fromDate: document.getElementById('fromDate').value,
+            toDate: document.getElementById('toDate').value,
+            Department: document.getElementById('Department').value,
+            location: document.getElementById('location').value,
+            guideTitle: document.getElementById('guideTitle').value,
+            guideName: document.getElementById('guideName').value,
+            guideDesignation: document.getElementById('guideDesignation').value,
+            guideLocation: document.getElementById('guideLocation').value,
+            guideCOTitle: document.getElementById('guideCOTitle').value,
+            guideCOName: document.getElementById('guideCOName').value,
+            guideCODesignation: document.getElementById('guideCODesignation').value,
+            guideCOLocation: document.getElementById('guideCOLocation').value
+        };
+  
+        const response = await fetch('/save_form_data/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+            alert('Data saved successfully!');
+            document.getElementById('generateButton').disabled = false;
+            document.getElementById('saveButton').style.backgroundColor = '#ccc';
+            document.getElementById('saveButton').disabled = true;
+        } else {
+            const error = await response.json();
+            alert('Error saving data: ' + error.error);
+        }
+    });
+  
+    // Generate Certificate Functionality
+    document.getElementById('certificateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateFormFields()) return;
+  
+        const formData = {
+            date: document.getElementById('date').value,
+            nameTitle: document.getElementById('nameTitle').value,
+            name: document.getElementById('name').value,
+            degree: document.getElementById('degree').value,
+            collegeName: document.getElementById('collegeName').value,
+            fromDate: document.getElementById('fromDate').value,
+            toDate: document.getElementById('toDate').value,
+            Department: document.getElementById('Department').value,
+            location: document.getElementById('location').value,
+            guideTitle: document.getElementById('guideTitle').value,
+            guideName: document.getElementById('guideName').value,
+            guideDesignation: document.getElementById('guideDesignation').value,
+            guideLocation: document.getElementById('guideLocation').value,
+            guideCOTitle: document.getElementById('guideCOTitle').value,
+            guideCOName: document.getElementById('guideCOName').value,
+            guideCODesignation: document.getElementById('guideCODesignation').value,
+            guideCOLocation: document.getElementById('guideCOLocation').value
+        };
+  
+        const response = await fetch('/generate_certificate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'certificate.docx';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } else {
+            const error = await response.json();
+            alert('Error generating certificate: ' + error.error);
+        }
+    });
+  </script>
+  

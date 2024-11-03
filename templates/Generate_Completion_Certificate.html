@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Completion Certificate</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .styled-label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #007bff;
+        }
+        .styled-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .styled-button:hover {
+            background-color: #0056b3;
+        }
+        .styled-button:active {
+            background-color: #004494;
+        }
+        .back-link {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            text-decoration: none;
+            color: #007bff; /* Adjust color to your theme */
+            font-weight: bold;
+        }
+
+        /* Optional: Hover effect for the back link */
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'Existing_Intern' %}" class="back-link">Back</a>
+    <form id="certificateForm" method="post">
+        {% csrf_token %}
+        <div class="container">
+            <label for="inputField" class="styled-label">Enter the Project title:</label>
+            <input type="text" id="inputField" name="project_title" class="input-field" required>
+            <button type="submit" class="styled-button">Generate Completion Certificate</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('certificateForm').onsubmit = function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const formData = new FormData(this);
+            const certificateId = "{{ certificate_id }}";  // Use Django variable
+            fetch(`/generate-certificate/${certificateId}/`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob(); // Get the response as a Blob
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'completion_certificate.docx'; // Set the file name for download
+                document.body.appendChild(a);
+                a.click(); // Programmatically click the link to trigger the download
+                window.URL.revokeObjectURL(url); // Clean up the URL.createObjectURL
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        };
+    </script>    
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus {
+            border-color: #66afe9;
+            outline: none;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.messages li.success {
+    background-color: #5cb85c; /* Green for success messages */
+}
+
+.messages li.error {
+    background-color: #d9534f; /* Red for error messages */
+}
+.back-link {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            text-decoration: none;
+            color: #007bff; /* Adjust color to your theme */
+            font-weight: bold;
+        }
+
+        /* Optional: Hover effect for the back link */
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+   
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    <h3>Edit Certificate</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="{{ certificate.name }}" required>
+        <label for="degree">Degree:</label>
+        <input type="text" name="degree" value="{{ certificate.degree }}" required>
+        <label for="college_name">College Name:</label>
+        <input type="text" name="college_name" value="{{ certificate.college_name }}" required>
+        <label for="from_date">From Date:</label>
+        <input type="date" name="from_date" value="{{ certificate.from_date }}" required>
+        <label for="to_date">To Date:</label>
+        <input type="date" name="to_date" value="{{ certificate.to_date }}" required>
+        <label for="Department">Department:</label>
+        <input type="text" name="Department" value="{{ certificate.Department }}" required>
+        <label for="location">Location:</label>
+        <input type="text" name="location" value="{{ certificate.location }}" required>
+        <label for="guide_name">Guide Name:</label>
+        <input type="text" name="guide_name" value="{{ certificate.guide_name }}" required>
+        <label for="guide_designation">Guide Designation:</label>
+        <input type="text" name="guide_designation" value="{{ certificate.guide_designation }}" required>
+        <label for="guide_location">Guide Location:</label>
+        <input type="text" name="guide_location" value="{{ certificate.guide_location }}" required>
+        <label for="guide_co_name">Guide CO Name:</label>
+        <input type="text" name="guide_co_name" value="{{ certificate.guide_co_name }}" required>
+        <label for="guide_co_designation">Guide CO Designation:</label>
+        <input type="text" name="guide_co_designation" value="{{ certificate.guide_co_designation }}" required>
+        <label for="guide_co_location">Guide CO Location:</label>
+        <input type="text" name="guide_co_location" value="{{ certificate.guide_co_location }}" required>
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'admin_panel' %}" class="back-link">Back</a>
+    </form>
+</body>
+</html>

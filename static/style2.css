@@ -1,0 +1,27 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+    box-sizing: border-box;
+    }
+    .labelline
+    {
+    display: flex;
+    min-height: 100vh; 
+    justify-content: center;
+    align-items: center;
+    background: ☐ #1c2841;
+    width: 680px;
+    position: relative;
+    height: 80px;
+    line-height: 80px;
+    }
+    .container{
+    width: 680px;
+    }
+    .entryarea{
+    position: relative;
+    height: 80px;
+    line-height: 80px;
+    }

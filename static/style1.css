@@ -1,0 +1,169 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+nav {
+    width: 250px;
+    background-color: #202c45;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.navLinks {
+    padding: 0;
+    list-style-type: none;
+}
+
+.navList {
+    margin: 20px 0;
+}
+
+.navList a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.navList a:hover,
+.navList.active a {
+    background-color: #ff4757;
+    color: white;
+}
+
+.logo {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.logo-image img {
+    width: 80px;
+    height: auto;
+}
+
+/* Bottom Link */
+.bottom-link {
+    margin-top: auto;
+}
+
+.bottom-link a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.bottom-link a:hover {
+    background-color: #ff4757;
+    border-radius: 8px;
+}
+
+/* Dashboard Section */
+.dashboard {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title h1 {
+    font-size: 30px;
+    color: #202c45;
+    margin-bottom: 20px;
+}
+
+/* Stats Boxes */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 10px;
+    width: 250px;
+}
+
+.stat-item h2 {
+    font-size: 18px;
+    color: #202c45;
+    margin-bottom: 10px;
+}
+
+.stat-item p {
+    font-size: 24px;
+    color: #ff4757;
+}
+
+/* Project Created Section */
+.project-created {
+    margin-top: 40px;
+}
+
+.project-created .title {
+    font-size: 18px;
+    color: #202c45;
+    margin-bottom: 10px;
+}
+
+.project-created .chart {
+    height: 200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    nav {
+        width: 60px;
+    }
+
+    .navList a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .dashboard {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+
+    .stat-item {
+        width: 100%;
+    }
+}

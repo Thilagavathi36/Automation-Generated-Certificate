@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Records</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">  <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            margin: 2px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.messages li.success {
+    background-color: #5cb85c; /* Green for success messages */
+}
+
+.messages li.error {
+    background-color: #d9534f; /* Red for error messages */
+}
+.back-link {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            text-decoration: none;
+            color: #007bff; /* Adjust color to your theme */
+            font-weight: bold;
+        }
+
+        /* Optional: Hover effect for the back link */
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'admin_panel' %}" class="back-link">Back</a>
+    <h3>Database Records</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Degree</th>
+                <th>College Name</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Guide Name</th>
+                <th>Guide Designation</th>
+                <th>Guide Location</th>
+                <th>Guide CO Name</th>
+                <th>Guide CO Designation</th>
+                <th>Guide CO Location</th>
+                <th>Actions</th>  <!-- Added actions column for buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for certificate in certificates %}
+            <tr>
+                <td>{{ certificate.id }}</td>
+                <td>{{ certificate.name }}</td>
+                <td>{{ certificate.degree }}</td>
+                <td>{{ certificate.college_name }}</td>
+                <td>{{ certificate.from_date }}</td>
+                <td>{{ certificate.to_date }}</td>
+                <td>{{ certificate.Department }}</td>
+                <td>{{ certificate.location }}</td>
+                <td>{{ certificate.guide_name }}</td>
+                <td>{{ certificate.guide_designation }}</td>
+                <td>{{ certificate.guide_location }}</td>
+                <td>{{ certificate.guide_co_name }}</td>
+                <td>{{ certificate.guide_co_designation }}</td>
+                <td>{{ certificate.guide_co_location }}</td>
+                <td>
+                    <a href="{% url 'edit_certificate' certificate.id %}" class="btn">Edit</a>
+                    <form action="{% url 'delete_certificate' certificate.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</body>
+</html>

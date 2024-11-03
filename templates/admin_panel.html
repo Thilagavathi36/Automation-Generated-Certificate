@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Admin Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 250px;
+            background-color: #1a2e4b; /* Navy blue */
+            color: white;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            left: 0;
+        }
+
+        .menu-items {
+            flex-grow: 1;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+        }
+
+        .navLinks {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .navList {
+            margin: 20px 0;
+        }
+
+        .navList a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .navList a:hover,
+        .navList.active a {
+            background-color: transparent;
+            color: #3498db;
+            border: 2px solid #3498db;
+            opacity: 0.7;
+        }
+        .navList a ion-icon {
+            margin-right: 10px; /* Adjust as needed */
+        }
+
+        /* Logo Styles */
+        .logo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .logo-image img {
+            width: 80px;
+            height: auto;
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            padding: 20px;
+            width: calc(100% - 250px);
+            margin-left: 250px;
+            background-color: #f4f4f9; /* Light grey background */
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: flex-start;
+            display: flex;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-grow: 1; /* Allows the container to take remaining space */
+            display: flex;
+            flex-direction: column;
+            /* Centers the stats boxes vertically */
+            align-items: center; 
+        }
+
+        .overview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+
+        .welcome-heading {
+            justify-content: flex-start;
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .title h1 {
+            justify-content: flex-start;
+            align-items: top;
+            flex-shrink: 0;
+            font-size: 30px;
+            color: #1a2e4b; /* Navy blue text */
+            margin-bottom: 200px;
+        }
+
+        /* Stats Boxes */
+        .stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-item h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.stat-item p {
+    font-size: 25px;
+    color: #3a8cc0; /* Change this color as needed */
+    font-weight: bold;
+}
+
+/* Hover effect for stat boxes */
+.stat-item:hover {
+    transform: translateY(-10px); /* Moves the box up on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds a deeper shadow */
+}
+
+/* Optional: Add background gradient or effect for specific stat items */
+.stat-item.completed {
+    background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Example gradient */
+    color: #fff;
+}
+
+.stat-item.pending {
+    background: linear-gradient(135deg, #f857a6, #ff5858); /* Example gradient */
+    color: #fff;
+}
+        /* Project Created Section */
+        .project-created {
+            margin-top: 40px;
+        }
+
+        .project-created .title {
+            font-size: 18px;
+            color: #1a2e4b;
+            margin-bottom: 10px;
+        }
+
+        .project-created .chart {
+            height: 200px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Bottom Link */
+        .bottom-link {
+            margin-bottom: 20px;
+        }
+
+        .bottom-link a {
+            display: flex;
+            align-items: bottom;
+            padding: 10px 15px;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .bottom-link a:hover {
+            background-color: #ff4757;
+            border-radius: 8px;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            nav {
+                width: 60px;
+                height: 100vh;
+            }
+
+            .navList a {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            .dashboard {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+            }
+
+            .stat-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <nav>
+        <div class="logo">
+            <div class="logo-image">
+                <img src="logo.png" alt="">
+            </div>
+        </div>
+        <div class="menu-items">
+            <ul class="navLinks">
+                <li class="navList active">
+                    <a href="#">
+                        <ion-icon name="home-outline"></ion-icon>
+                        <span class="links">Dashboard</span>
+                    </a>
+                </li>
+                <li class="navList">
+                    <a href="{% url 'new_intern' %}">
+                        
+                        <ion-icon name="folder-outline"></ion-icon>
+                        <span class="links">New Intern</span>
+                    </a>
+                </li>
+                <li class="navList">
+                    <a href="{% url 'Existing_Intern' %}">
+                        <ion-icon name="analytics-outline"></ion-icon>
+                        <span class="links">Existing Intern</span>
+                    </a>
+                </li>
+                <li class="navList">
+                    <a href="{% url 'database' %}">
+                        <ion-icon name="server-outline"></ion-icon><br> <!-- Different icon -->
+                        <span class="links">Database</span>
+                    </a>
+                </li>
+                
+            </ul>
+            <ul class="bottom-link">
+                <li>
+                    <a href="#">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                        <span class="links">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <span class="links">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="container">
+            <div class="overview">
+                <div class="title">
+                    <h1 class="Welcome-heading">Welcome to Admin Panel</h1>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h2>Completed Interns</h2>
+                        <p>{{ completed_interns_count }}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h2>Pending Interns</h2>
+                        <p>{{ pending_interns_count }}</p>
+                    </div>       
+            
+
+            
+             
+    </section>
+
+    
+    
+    <!-- Sources for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    
+</body>
+
+</html>
